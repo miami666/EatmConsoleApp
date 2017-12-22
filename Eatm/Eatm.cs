@@ -1,14 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Eatm
 {
+    enum NormalUserOperationChoice
+    {
+        ViewAccount,
+        CheckBalance,
+        WithdrawAmount,
+        ChangePin,
+        Logout
+    };
     class Eatm
     {
-        private string _loginPrompt;
         private string _cardInput;
         private string _cardInputError;
         private string _loginChoicePrompt;
@@ -17,6 +25,10 @@ namespace Eatm
         private string _pinInputError;
         private string _cardNotFound;
         private string _pinCodeInvalid;
+        private string _normalUserMenu;
+        private string _menuChoice;
+        private string _menuChoiceError;
+
 
         private List<Account> _accountList;
 
@@ -34,6 +46,15 @@ Enter your choice: ";
             _pinInputError = "Wrong pin code! Try again";
             _cardNotFound = "Card number not found! Please try again";
             _pinCodeInvalid = "Pin code doesn't match!";
+            _menuChoice = "Enter your choice";
+            _menuChoiceError = "Wrong choice! Please try again";
+            _normalUserMenu = @"Operation: 
+0 => View Account
+1 => Check Balance
+2 => Withdraw Amount
+3 => Change Pin
+4 => Logout";
+
 
             _accountList = new List<Account>
             {
@@ -74,7 +95,64 @@ Enter your choice: ";
 
         private void NormalUserOperation(Account account)
         {
-            Console.WriteLine("Normal User menu");
+            Console.WriteLine(_normalUserMenu);
+            var choice = TakeUserInput(_menuChoice, _menuChoiceError);
+            switch (choice)
+            {
+               case (int)NormalUserOperationChoice.ViewAccount:
+                   ViewNormalAccountDetails(account);
+                   break;
+                case (int)NormalUserOperationChoice.CheckBalance:
+                    CheckBalance(account);
+                    break;
+                case (int)NormalUserOperationChoice.WithdrawAmount:
+                    WithdrawAmount(account);
+                    break;
+                case (int)NormalUserOperationChoice.ChangePin:
+                    ChangePin(account);
+                    break;
+                case (int)NormalUserOperationChoice.Logout:
+                    Logout();
+                    break;
+                default:
+                    Console.WriteLine(_menuChoiceError);
+                    NormalUserOperation(account);
+                    break;
+            }
+        }
+
+        private void Logout()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void ChangePin(Account account)
+        {
+            Console.WriteLine("ChangePin");
+        }
+
+        private void WithdrawAmount(Account account)
+        {
+            Console.WriteLine("WithdrawAmount");
+        }
+
+        private void CheckBalance(Account account)
+        {
+            Console.WriteLine("----Balance Check----");
+            Console.WriteLine("Current Balance: "+account.Balance);
+            Console.WriteLine("----------------------");
+            NormalUserOperation(account);
+        }
+
+        private void ViewNormalAccountDetails(Account account)
+        {
+            Console.WriteLine("----Account Details-----");
+            Console.WriteLine("Full Name: " +account.FullName);
+            Console.WriteLine("Card Number: " + account.CardNumber);
+            Console.WriteLine("Pin Code: " + account.PinCode);
+            Console.WriteLine("Balance: " + account.Balance);
+            Console.WriteLine("----------------------");
+            NormalUserOperation(account);
         }
 
         private bool PinCheck(Account account)
