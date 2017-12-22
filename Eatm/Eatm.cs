@@ -38,6 +38,7 @@ namespace Eatm
         private string _withdrawAmount;
         private string _withdrawAmountError;
         private string _adminMenu;
+        private string _accountSelect;
         private int _maxWithdrawAmount;
 
         private List<Account> _accountList;
@@ -61,6 +62,7 @@ Enter your choice: ";
             _menuChoiceError = "Wrong choice! Please try again";
             _withdrawAmount = "Enter withdraw amount";
             _withdrawAmountError = "Invalid amount! Try again";
+            _accountSelect = "Choose account to delete";
             _normalUserMenu = @"Operation: 
 0 => View Account
 1 => Check Balance
@@ -246,7 +248,9 @@ Enter your choice: ";
                     ViewAllAccountDetails();
                     break;
                 case (int)AdminOperationChoice.DeleteAccount:
-                    DeleteAccount();
+                    if (_accountList.Count > 0) DeleteAccount();
+                    Console.WriteLine("No account have to delete");
+                    Admin();
                     break;
                 case (int)AdminOperationChoice.DepositAmount:
                     DepositAmount();
@@ -268,7 +272,24 @@ Enter your choice: ";
 
         private void DeleteAccount()
         {
-            throw new NotImplementedException();
+            int i = 1;
+            foreach (var account in _accountList)
+            {
+                Console.WriteLine(i++ +". Full Nmae: {0} Card Number: {1} Pin Code: {2} Balance: {3}", account.FullName, account.CardNumber, account.PinCode, account.Balance);
+            }
+            var serial = TakeUserInput(_accountSelect, _menuChoiceError) - 1;
+            if(serial < 0) DeleteAccount();
+            if (_accountList.Count > serial)
+            {
+                _accountList.RemoveAt(serial);
+                Console.WriteLine("Account deleted successfully");
+                Admin();
+            }
+            else
+            {
+                Console.WriteLine(_menuChoiceError);
+                Admin();
+            }
         }
 
         private void ViewAllAccountDetails()
