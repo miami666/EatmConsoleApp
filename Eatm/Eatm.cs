@@ -128,7 +128,12 @@ Enter your choice: ";
 
         private void ChangePin(Account account)
         {
-            Console.WriteLine("ChangePin");
+            Console.WriteLine("-----Pin code chnage-----");
+            var newPinCode = TakeUserInput(_pinInput, _pinInputError);
+            account.PinCode = newPinCode;
+            Console.WriteLine("Pin chnage successfully");
+            Console.WriteLine("-----------------------");
+            NormalUserOperation(account);
         }
 
         private void WithdrawAmount(Account account)
