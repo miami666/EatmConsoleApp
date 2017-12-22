@@ -16,6 +16,7 @@ namespace Eatm
         private string _pinInput;
         private string _pinInputError;
         private string _cardNotFound;
+        private string _pinCodeInvalid;
 
         private List<Account> _accountList;
 
@@ -32,11 +33,12 @@ Enter your choice: ";
             _pinInput = "Enter your pin code";
             _pinInputError = "Wrong pin code! Try again";
             _cardNotFound = "Card number not found! Please try again";
+            _pinCodeInvalid = "Pin code doesn't match!";
 
             _accountList = new List<Account>
             {
                 new Account() { FullName = "Shafik Shaon", CardNumber = 123, PinCode = 1111, Balance = 20000 },
-                new Account() { FullName = "Sadia Sabnaj", CardNumber = 456, PinCode = 2222, Balance = 15000 },
+                new Account() { FullName = "Tom Cruise", CardNumber = 456, PinCode = 2222, Balance = 15000 },
                 new Account() { FullName = "Shafikur Rahman", CardNumber = 789, PinCode = 3333, Balance = 29000 }
             };
         }
@@ -61,6 +63,25 @@ Enter your choice: ";
                 Console.WriteLine(_cardNotFound);
                 NormalUser();
             }
+            bool isVarified = PinCheck(account);
+            if (isVarified) NormalUserOperation(account);
+            else
+            {
+                Console.WriteLine(_pinCodeInvalid);
+                NormalUser();
+            }
+        }
+
+        private void NormalUserOperation(Account account)
+        {
+            Console.WriteLine("Normal User menu");
+        }
+
+        private bool PinCheck(Account account)
+        {
+            var pinCode = TakeUserInput(_pinInput, _pinInputError);
+            if (pinCode == account.PinCode) return true;
+            return false;
         }
 
         private Account GetNormalUser()
