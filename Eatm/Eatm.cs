@@ -123,7 +123,9 @@ Enter your choice: ";
 
         private void Logout()
         {
-            throw new NotImplementedException();
+            Console.WriteLine("Logout Successfully");
+            Console.WriteLine("------------------");
+            Start();
         }
 
         private void ChangePin(Account account)
