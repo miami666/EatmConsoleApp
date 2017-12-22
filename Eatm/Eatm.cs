@@ -38,7 +38,10 @@ namespace Eatm
         private string _withdrawAmount;
         private string _withdrawAmountError;
         private string _adminMenu;
-        private string _accountSelect;
+        private string _accountSelectToDelete;
+        private string _depositAmount;
+        private string _depositAmountError;
+        private string _accountSelectToDeposit;
         private int _maxWithdrawAmount;
 
         private List<Account> _accountList;
@@ -62,7 +65,10 @@ Enter your choice: ";
             _menuChoiceError = "Wrong choice! Please try again";
             _withdrawAmount = "Enter withdraw amount";
             _withdrawAmountError = "Invalid amount! Try again";
-            _accountSelect = "Choose account to delete";
+            _accountSelectToDelete = "Choose account to delete";
+            _depositAmount = "Enter deposit amount";
+            _depositAmountError = "Invalid amount! Try again";
+            _accountSelectToDeposit = "Choose account to deposit";
             _normalUserMenu = @"Operation: 
 0 => View Account
 1 => Check Balance
@@ -267,7 +273,26 @@ Enter your choice: ";
 
         private void DepositAmount()
         {
-            throw new NotImplementedException();
+            int i = 1;
+            foreach (var account in _accountList)
+            {
+                Console.WriteLine(i++ + ". Full Nmae: {0} Card Number: {1} Pin Code: {2} Balance: {3}", account.FullName, account.CardNumber, account.PinCode, account.Balance);
+            }
+            var serial = TakeUserInput(_accountSelectToDeposit, _menuChoiceError) - 1;
+            if (serial < 0) DepositAmount();
+            if (_accountList.Count > serial)
+            {
+                var amount = TakeUserInput(_depositAmount, _depositAmountError);
+                _accountList[serial].Balance = _accountList[serial].Balance + amount;
+                Console.WriteLine("You have successfully deposit {0}. New account balance is {1}", amount, _accountList[serial].Balance);
+                Admin();
+            }
+            else
+            {
+                Console.WriteLine(_menuChoiceError);
+                Admin();
+            }
+            
         }
 
         private void DeleteAccount()
@@ -277,7 +302,7 @@ Enter your choice: ";
             {
                 Console.WriteLine(i++ +". Full Nmae: {0} Card Number: {1} Pin Code: {2} Balance: {3}", account.FullName, account.CardNumber, account.PinCode, account.Balance);
             }
-            var serial = TakeUserInput(_accountSelect, _menuChoiceError) - 1;
+            var serial = TakeUserInput(_accountSelectToDelete, _menuChoiceError) - 1;
             if(serial < 0) DeleteAccount();
             if (_accountList.Count > serial)
             {
