@@ -14,7 +14,14 @@ namespace Eatm
         WithdrawAmount,
         ChangePin,
         Logout
-    };
+    }
+    enum AdminOperationChoice
+    {
+        ViewAllAccount,
+        DeleteAccount,
+        DepositAmount,
+        Logout
+    }
     class Eatm
     {
         private string _cardInput;
@@ -30,6 +37,7 @@ namespace Eatm
         private string _menuChoiceError;
         private string _withdrawAmount;
         private string _withdrawAmountError;
+        private string _adminMenu;
         private int _maxWithdrawAmount;
 
         private List<Account> _accountList;
@@ -59,6 +67,12 @@ Enter your choice: ";
 2 => Withdraw Amount
 3 => Change Pin
 4 => Logout";
+            _adminMenu = @"Operation: 
+0 => View All Account
+1 => Delete account
+2 => Deposit amount
+3 => Logout
+";
             _maxWithdrawAmount = 1000;
             _accountList = new List<Account>
             {
@@ -224,7 +238,48 @@ Enter your choice: ";
 
         private void Admin()
         {
-            Console.WriteLine("Admin");
+            Console.WriteLine(_adminMenu);
+            var choice = TakeUserInput(_menuChoice, _menuChoiceError);
+            switch (choice)
+            {
+                case (int)AdminOperationChoice.ViewAllAccount:
+                    ViewAllAccountDetails();
+                    break;
+                case (int)AdminOperationChoice.DeleteAccount:
+                    DeleteAccount();
+                    break;
+                case (int)AdminOperationChoice.DepositAmount:
+                    DepositAmount();
+                    break;
+                case (int)AdminOperationChoice.Logout:
+                    Logout();
+                    break;
+                default:
+                    Console.WriteLine(_menuChoiceError);
+                    Admin();
+                    break;
+            }
+        }
+
+        private void DepositAmount()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void DeleteAccount()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void ViewAllAccountDetails()
+        {
+            Console.WriteLine("----------------------All Account Details-----------------------");
+            foreach (var account in _accountList)
+            {
+                Console.WriteLine("Full Nmae: {0} Card Number: {1} Pin Code: {2} Balance: {3}", account.FullName, account.CardNumber, account.PinCode, account.Balance);    
+            }
+            Console.WriteLine("------------------------------------------------------------------\n");
+            Admin();
         }
 
         private int TakeUserInput(string prompt, string error)
