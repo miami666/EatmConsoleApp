@@ -10,6 +10,9 @@ namespace Eatm
     {
         static void Main(string[] args)
         {
+            Eatm eatm = new Eatm();
+            eatm.Init();
+            eatm.Start();
         }
     }
 }
