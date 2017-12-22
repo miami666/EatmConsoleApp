@@ -1,0 +1,245 @@
+Login:
+0 => Admin
+1 => Normal User
+
+Enter your choice:
+1
+Enter your card number
+456
+Enter your pin code
+1111
+Pin code doesn't match!
+Enter your card number
+456
+Enter your pin code
+2222
+Operation:
+0 => View Account
+1 => Check Balance
+2 => Withdraw Amount
+3 => Change Pin
+4 => Logout
+Enter your choice
+0
+----Account Details-----
+Full Name: Tom Cruise
+Card Number: 456
+Pin Code: 2222
+Balance: 15000
+----------------------
+Operation:
+0 => View Account
+1 => Check Balance
+2 => Withdraw Amount
+3 => Change Pin
+4 => Logout
+Enter your choice
+1
+----Balance Check----
+Current Balance: 15000
+----------------------
+Operation:
+0 => View Account
+1 => Check Balance
+2 => Withdraw Amount
+3 => Change Pin
+4 => Logout
+Enter your choice
+2
+Enter withdraw amount
+5000
+You can't withdraw more than 1000
+Operation:
+0 => View Account
+1 => Check Balance
+2 => Withdraw Amount
+3 => Change Pin
+4 => Logout
+Enter your choice
+2
+Enter withdraw amount
+1000
+You have successfully withdrawn 1000. Your new account balance is 14000
+Operation:
+0 => View Account
+1 => Check Balance
+2 => Withdraw Amount
+3 => Change Pin
+4 => Logout
+Enter your choice
+2
+Enter withdraw amount
+500
+You have successfully withdrawn 500. Your new account balance is 13500
+Operation:
+0 => View Account
+1 => Check Balance
+2 => Withdraw Amount
+3 => Change Pin
+4 => Logout
+Enter your choice
+250
+Wrong choice! Please try again
+Operation:
+0 => View Account
+1 => Check Balance
+2 => Withdraw Amount
+3 => Change Pin
+4 => Logout
+Enter your choice
+2
+Enter withdraw amount
+250
+You have successfully withdrawn 250. Your new account balance is 13250
+Operation:
+0 => View Account
+1 => Check Balance
+2 => Withdraw Amount
+3 => Change Pin
+4 => Logout
+Enter your choice
+2
+-------------------------------------------------------
+You have reached your daily limit of 3 transactions
+Operation:
+0 => View Account
+1 => Check Balance
+2 => Withdraw Amount
+3 => Change Pin
+4 => Logout
+Enter your choice
+3
+-----Pin code chnage-----
+Enter your pin code
+1234
+Pin chnage successfully
+-----------------------
+Operation:
+0 => View Account
+1 => Check Balance
+2 => Withdraw Amount
+3 => Change Pin
+4 => Logout
+Enter your choice
+0
+----Account Details-----
+Full Name: Tom Cruise
+Card Number: 456
+Pin Code: 1234
+Balance: 13250
+----------------------
+Operation:
+0 => View Account
+1 => Check Balance
+2 => Withdraw Amount
+3 => Change Pin
+4 => Logout
+Enter your choice
+4
+Logout Successfully
+------------------
+Login:
+0 => Admin
+1 => Normal User
+
+Enter your choice:
+0
+Operation:
+0 => View All Account
+1 => Delete account
+2 => Deposit amount
+3 => Logout
+
+Enter your choice
+0
+----------------------All Account Details-----------------------
+Full Nmae: Shafik Shaon Card Number: 123 Pin Code: 1111 Balance: 20000
+Full Nmae: Tom Cruise Card Number: 456 Pin Code: 1234 Balance: 13250
+Full Nmae: Shafikur Rahman Card Number: 789 Pin Code: 3333 Balance: 29000
+------------------------------------------------------------------
+
+Operation:
+0 => View All Account
+1 => Delete account
+2 => Deposit amount
+3 => Logout
+
+Enter your choice
+2
+1. Full Nmae: Shafik Shaon Card Number: 123 Pin Code: 1111 Balance: 20000
+2. Full Nmae: Tom Cruise Card Number: 456 Pin Code: 1234 Balance: 13250
+3. Full Nmae: Shafikur Rahman Card Number: 789 Pin Code: 3333 Balance: 29000
+Choose account to deposit
+2
+Enter deposit amount
+5000
+You have successfully deposit 5000. New account balance is 18250
+Operation:
+0 => View All Account
+1 => Delete account
+2 => Deposit amount
+3 => Logout
+
+Enter your choice
+0
+----------------------All Account Details-----------------------
+Full Nmae: Shafik Shaon Card Number: 123 Pin Code: 1111 Balance: 20000
+Full Nmae: Tom Cruise Card Number: 456 Pin Code: 1234 Balance: 18250
+Full Nmae: Shafikur Rahman Card Number: 789 Pin Code: 3333 Balance: 29000
+------------------------------------------------------------------
+
+Operation:
+0 => View All Account
+1 => Delete account
+2 => Deposit amount
+3 => Logout
+
+Enter your choice
+1
+1. Full Nmae: Shafik Shaon Card Number: 123 Pin Code: 1111 Balance: 20000
+2. Full Nmae: Tom Cruise Card Number: 456 Pin Code: 1234 Balance: 18250
+3. Full Nmae: Shafikur Rahman Card Number: 789 Pin Code: 3333 Balance: 29000
+Choose account to delete
+3
+Account deleted successfully
+Operation:
+0 => View All Account
+1 => Delete account
+2 => Deposit amount
+3 => Logout
+
+Enter your choice
+0
+----------------------All Account Details-----------------------
+Full Nmae: Shafik Shaon Card Number: 123 Pin Code: 1111 Balance: 20000
+Full Nmae: Tom Cruise Card Number: 456 Pin Code: 1234 Balance: 18250
+------------------------------------------------------------------
+
+Operation:
+0 => View All Account
+1 => Delete account
+2 => Deposit amount
+3 => Logout
+
+Enter your choice
+0
+----------------------All Account Details-----------------------
+Full Nmae: Shafik Shaon Card Number: 123 Pin Code: 1111 Balance: 20000
+Full Nmae: Tom Cruise Card Number: 456 Pin Code: 1234 Balance: 18250
+------------------------------------------------------------------
+
+Operation:
+0 => View All Account
+1 => Delete account
+2 => Deposit amount
+3 => Logout
+
+Enter your choice
+3
+Logout Successfully
+------------------
+Login:
+0 => Admin
+1 => Normal User
+
+Enter your choice:
