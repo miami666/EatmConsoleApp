@@ -28,9 +28,12 @@ namespace Eatm
         private string _normalUserMenu;
         private string _menuChoice;
         private string _menuChoiceError;
-
+        private string _withdrawAmount;
+        private string _withdrawAmountError;
+        private int _maxWithdrawAmount;
 
         private List<Account> _accountList;
+        private Dictionary<int, int> _numberOfTrasactions;
 
         public void Init()
         {
@@ -48,20 +51,26 @@ Enter your choice: ";
             _pinCodeInvalid = "Pin code doesn't match!";
             _menuChoice = "Enter your choice";
             _menuChoiceError = "Wrong choice! Please try again";
+            _withdrawAmount = "Enter withdraw amount";
+            _withdrawAmountError = "Invalid amount! Try again";
             _normalUserMenu = @"Operation: 
 0 => View Account
 1 => Check Balance
 2 => Withdraw Amount
 3 => Change Pin
 4 => Logout";
-
-
+            _maxWithdrawAmount = 1000;
             _accountList = new List<Account>
             {
                 new Account() { FullName = "Shafik Shaon", CardNumber = 123, PinCode = 1111, Balance = 20000 },
                 new Account() { FullName = "Tom Cruise", CardNumber = 456, PinCode = 2222, Balance = 15000 },
                 new Account() { FullName = "Shafikur Rahman", CardNumber = 789, PinCode = 3333, Balance = 29000 }
             };
+            _numberOfTrasactions = new Dictionary<int, int>();
+            foreach (var account in _accountList)
+            {
+                _numberOfTrasactions.Add(account.CardNumber, 0);
+            }
         }
 
         public void Start()
@@ -99,7 +108,7 @@ Enter your choice: ";
             var choice = TakeUserInput(_menuChoice, _menuChoiceError);
             switch (choice)
             {
-               case (int)NormalUserOperationChoice.ViewAccount:
+                case (int)NormalUserOperationChoice.ViewAccount:
                    ViewNormalAccountDetails(account);
                    break;
                 case (int)NormalUserOperationChoice.CheckBalance:
@@ -140,7 +149,43 @@ Enter your choice: ";
 
         private void WithdrawAmount(Account account)
         {
-            Console.WriteLine("WithdrawAmount");
+            bool transactionStatus = CheckTransactionEligibility(account);
+            if (!transactionStatus) NormalUserOperation(account);
+
+            var amount = TakeUserInput(_withdrawAmount, _withdrawAmountError);
+            int amountStatus = CheckAmountEligibility(account, amount);
+            if(amountStatus == 0) NormalUserOperation(account);
+
+            _numberOfTrasactions[account.CardNumber] += 1;
+            account.Balance -= amount;
+            Console.WriteLine("You have successfully withdrawn {0}. Your new account balance is {1}", amount, account.Balance);
+            NormalUserOperation(account);
+        }
+
+        private int CheckAmountEligibility(Account account, int amount)
+        {
+            if (amount > account.Balance)
+            {
+                Console.WriteLine("You dont have enough balance to make that transaction");
+                return 0;
+            }
+            if (amount > _maxWithdrawAmount)
+            {
+                Console.WriteLine("You can't withdraw more than 1000");
+                return 0;
+            }
+            return amount;
+        }
+
+        private bool CheckTransactionEligibility(Account account)
+        {
+            if (_numberOfTrasactions[account.CardNumber] >= 3)
+            {
+                Console.WriteLine("-------------------------------------------------------");
+                Console.WriteLine("You have reached your daily limit of 3 transactions");
+                return false;
+            }
+            return true;
         }
 
         private void CheckBalance(Account account)
