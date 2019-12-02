@@ -7,328 +7,328 @@ using System.Threading.Tasks;
 
 namespace Eatm
 {
-    enum NormalUserOperationChoice
+    enum BenutzerAktionAuswahl
     {
-        ViewAccount,
-        CheckBalance,
-        WithdrawAmount,
-        ChangePin,
-        Logout
+        ZeigeKonto,
+        ZeigeKontostand,
+        GeldAbheben,
+        AenderePin,
+        Abmelden
     }
-    enum AdminOperationChoice
+    enum AdminAktionAuswahl
     {
-        ViewAllAccount,
-        DeleteAccount,
-        DepositAmount,
-        Logout
+        ZeigeAlleKonten,
+        LoescheKonto,
+        GeldEinzahlen,
+        Abmelden
     }
     class Eatm
     {
-        private string _cardInput;
-        private string _cardInputError;
-        private string _loginChoicePrompt;
-        private string _loginChoiceError;
-        private string _pinInput;
-        private string _pinInputError;
-        private string _cardNotFound;
-        private string _pinCodeInvalid;
-        private string _normalUserMenu;
-        private string _menuChoice;
-        private string _menuChoiceError;
-        private string _withdrawAmount;
-        private string _withdrawAmountError;
+        private string _kartenEingabe;
+        private string _kartenEingabeFehler;
+        private string _anmeldungEingabe;
+        private string _anmeldungEingabeFehler;
+        private string _pinEingabe;
+        private string _pinEingabeFehler;
+        private string _karteNichtGefunden;
+        private string _pinUngueltig;
+        private string _benutzerMenu;
+        private string _menuAuswahl;
+        private string _menuAuswahlFehler;
+        private string _betragAuszahlung;
+        private string _betragAuszahlungFehler;
         private string _adminMenu;
-        private string _accountSelectToDelete;
-        private string _depositAmount;
-        private string _depositAmountError;
-        private string _accountSelectToDeposit;
-        private int _maxWithdrawAmount;
+        private string _kontoLoeschenAuswahl;
+        private string _betragEinzahlung;
+        private string _betragEinzahlungFehler;
+        private string _kontoAuswahlBetragEinzahlung;
+        private int _maxAuszahlungBetrag;
 
-        private List<Account> _accountList;
-        private Dictionary<int, int> _numberOfTrasactions;
+        private List<Konto> _kontoliste;
+        private Dictionary<int, int> _anzahlTransaktionen;
 
         public void Init()
         {
-            _loginChoicePrompt = @"Login: 
+            _anmeldungEingabe = @"Login: 
 0 => Admin
-1 => Normal User
+1 => Normaler Benutzer
 
-Enter your choice: ";
-            _loginChoiceError = "Wrong choice! Please try again";
-            _cardInput = "Enter your card number";
-            _cardInputError = "Wrong card number! Try again";
-            _pinInput = "Enter your pin code";
-            _pinInputError = "Wrong pin code! Try again";
-            _cardNotFound = "Card number not found! Please try again";
-            _pinCodeInvalid = "Pin code doesn't match!";
-            _menuChoice = "Enter your choice";
-            _menuChoiceError = "Wrong choice! Please try again";
-            _withdrawAmount = "Enter withdraw amount";
-            _withdrawAmountError = "Invalid amount! Try again";
-            _accountSelectToDelete = "Choose account to delete";
-            _depositAmount = "Enter deposit amount";
-            _depositAmountError = "Invalid amount! Try again";
-            _accountSelectToDeposit = "Choose account to deposit";
-            _normalUserMenu = @"Operation: 
-0 => View Account
-1 => Check Balance
-2 => Withdraw Amount
-3 => Change Pin
-4 => Logout";
+Ihre Auswahl: ";
+            _anmeldungEingabeFehler = "Auswahl ungueltig! Bitte versuchen sie es erneut";
+            _kartenEingabe = "Ihre Konotnummer:";
+            _kartenEingabeFehler = "Kontonummer ungueltig! Bitte versuchen Sie es erneut";
+            _pinEingabe = "Bitte geben sie ihren Pin Code ein";
+            _pinEingabeFehler = "Falscher Pin Code! Versuchen sie es erneut";
+            _karteNichtGefunden = "Kontonummer nicht gefunden. Bitte versuchen sie es erneut";
+            _pinUngueltig = "Pin Code stimmt nicht überein";
+            _menuAuswahl = "Ihre Auswahl:";
+            _menuAuswahlFehler = "Falsche Auswahl! Bitte versuchen sie es erneut";
+            _betragAuszahlung = "Auszsahlungsbetrag eingeben:";
+            _betragAuszahlungFehler = "Ungültiger Betrag! Bitte versuchen sie es erneut";
+            _kontoLoeschenAuswahl = "Welches Konto soll gelöscht werden?";
+            _betragEinzahlung = "Einzahlungsbetrag eingeben bitte:";
+            _betragEinzahlungFehler = "Ungültiger Betrag! Bitte versuchen sie es erneut.";
+            _kontoAuswahlBetragEinzahlung = "Auf welches Konto soll die Einzahlung erfolgen?";
+            _benutzerMenu = @"Operation: 
+0 => Konto ansehen
+1 => Kontostand anzeigen
+2 => Auszahlung
+3 => Pin ändern
+4 => Abmelden";
             _adminMenu = @"Operation: 
-0 => View All Account
-1 => Delete account
-2 => Deposit amount
-3 => Logout
+0 => Alle Konten zeigen
+1 => Konto löschen
+2 => Betrag einzahlen
+3 => Abmelden
 ";
-            _maxWithdrawAmount = 1000;
-            _accountList = new List<Account>
+            _maxAuszahlungBetrag = 1000;
+            _kontoliste = new List<Konto>
             {
-                new Account() { FullName = "Shafik Shaon", CardNumber = 123, PinCode = 1111, Balance = 20000 },
-                new Account() { FullName = "Tom Cruise", CardNumber = 456, PinCode = 2222, Balance = 15000 },
-                new Account() { FullName = "Shafikur Rahman", CardNumber = 789, PinCode = 3333, Balance = 29000 }
+                new Konto() { Name = "Uschi Glas", KontoNr = 123, PinCode = 1111, Kontostand = 20000 },
+                new Konto() { Name = "Tom Cruise", KontoNr = 456, PinCode = 2222, Kontostand = 15000 },
+                new Konto() { Name = "Shafikur Rahman", KontoNr = 789, PinCode = 3333, Kontostand = 29000 }
             };
-            _numberOfTrasactions = new Dictionary<int, int>();
-            foreach (var account in _accountList)
+            _anzahlTransaktionen = new Dictionary<int, int>();
+            foreach (var konto in _kontoliste)
             {
-                _numberOfTrasactions.Add(account.CardNumber, 0);
+                _anzahlTransaktionen.Add(konto.KontoNr, 0);
             }
         }
 
         public void Start()
         {
-            var choiceInput = TakeUserInput(_loginChoicePrompt, _loginChoiceError);
-            if (choiceInput == 0) Admin();
-            else if (choiceInput == 1) NormalUser();
+            var auswahlEingabe = BenutzerEingabeLesen(_anmeldungEingabe, _anmeldungEingabeFehler);
+            if (auswahlEingabe == 0) Admin();
+            else if (auswahlEingabe == 1) Benutzer();
             else
             {
-                Console.WriteLine(_loginChoiceError);
+                Console.WriteLine(_anmeldungEingabeFehler);
                 Start();
             }
         }
 
-        private void NormalUser()
+        private void Benutzer()
         {
-            Account account = GetNormalUser();
-            if (account == null)
+            Konto konto = GetBenutzer();
+            if (konto == null)
             {
-                Console.WriteLine(_cardNotFound);
-                NormalUser();
+                Console.WriteLine(_karteNichtGefunden);
+                Benutzer();
             }
-            bool isVarified = PinCheck(account);
-            if (isVarified) NormalUserOperation(account);
+            bool istGueltig = PinCheck(konto);
+            if (istGueltig) BenutzerAktion(konto);
             else
             {
-                Console.WriteLine(_pinCodeInvalid);
-                NormalUser();
+                Console.WriteLine(_pinUngueltig);
+                Benutzer();
             }
         }
 
-        private void NormalUserOperation(Account account)
+        private void BenutzerAktion(Konto konto)
         {
-            Console.WriteLine(_normalUserMenu);
-            var choice = TakeUserInput(_menuChoice, _menuChoiceError);
-            switch (choice)
+            Console.WriteLine(_benutzerMenu);
+            var auswahl = BenutzerEingabeLesen(_menuAuswahl, _menuAuswahlFehler);
+            switch (auswahl)
             {
-                case (int)NormalUserOperationChoice.ViewAccount:
-                   ViewNormalAccountDetails(account);
+                case (int)BenutzerAktionAuswahl.ZeigeKonto:
+                   ZeigeKontoDetails(konto);
                    break;
-                case (int)NormalUserOperationChoice.CheckBalance:
-                    CheckBalance(account);
+                case (int)BenutzerAktionAuswahl.ZeigeKontostand:
+                    ZeigeKontostand(konto);
                     break;
-                case (int)NormalUserOperationChoice.WithdrawAmount:
-                    WithdrawAmount(account);
+                case (int)BenutzerAktionAuswahl.GeldAbheben:
+                    GeldAbheben(konto);
                     break;
-                case (int)NormalUserOperationChoice.ChangePin:
-                    ChangePin(account);
+                case (int)BenutzerAktionAuswahl.AenderePin:
+                    AenderePin(konto);
                     break;
-                case (int)NormalUserOperationChoice.Logout:
-                    Logout();
+                case (int)BenutzerAktionAuswahl.Abmelden:
+                    Abmelden();
                     break;
                 default:
-                    Console.WriteLine(_menuChoiceError);
-                    NormalUserOperation(account);
+                    Console.WriteLine(_menuAuswahlFehler);
+                    BenutzerAktion(konto);
                     break;
             }
         }
 
-        private void Logout()
+        private void Abmelden()
         {
-            Console.WriteLine("Logout Successfully");
-            Console.WriteLine("------------------");
+            Console.WriteLine("Abmeldung erfolgreich");
+            Console.WriteLine("---------------------");
             Start();
         }
 
-        private void ChangePin(Account account)
+        private void AenderePin(Konto konto)
         {
-            Console.WriteLine("-----Pin code chnage-----");
-            var newPinCode = TakeUserInput(_pinInput, _pinInputError);
-            account.PinCode = newPinCode;
-            Console.WriteLine("Pin chnage successfully");
+            Console.WriteLine("-----Pin code Änderung-----");
+            var neuerPinCode = BenutzerEingabeLesen(_pinEingabe, _pinEingabeFehler);
+            konto.PinCode = neuerPinCode;
+            Console.WriteLine("Pin Code Änderung erfolgreich");
             Console.WriteLine("-----------------------");
-            NormalUserOperation(account);
+            BenutzerAktion(konto);
         }
 
-        private void WithdrawAmount(Account account)
+        private void GeldAbheben(Konto konto)
         {
-            bool transactionStatus = CheckTransactionEligibility(account);
-            if (!transactionStatus) NormalUserOperation(account);
+            bool transactionStatus = CheckTransactionEligibility(konto);
+            if (!transactionStatus) BenutzerAktion(konto);
 
-            var amount = TakeUserInput(_withdrawAmount, _withdrawAmountError);
-            int amountStatus = CheckAmountEligibility(account, amount);
-            if(amountStatus == 0) NormalUserOperation(account);
+            var betrag = BenutzerEingabeLesen(_betragAuszahlung, _betragAuszahlungFehler);
+            int betragStatus = CheckbetragEligibility(konto, betrag);
+            if(betragStatus == 0) BenutzerAktion(konto);
 
-            _numberOfTrasactions[account.CardNumber] += 1;
-            account.Balance -= amount;
-            Console.WriteLine("You have successfully withdrawn {0}. Your new account balance is {1}", amount, account.Balance);
-            NormalUserOperation(account);
+            _anzahlTransaktionen[konto.KontoNr] += 1;
+            konto.Kontostand -= betrag;
+            Console.WriteLine("You have successfully withdrawn {0}. Your new konto balance is {1}", betrag, konto.Kontostand);
+            BenutzerAktion(konto);
         }
 
-        private int CheckAmountEligibility(Account account, int amount)
+        private int CheckbetragEligibility(Konto konto, int betrag)
         {
-            if (amount > account.Balance)
+            if (betrag > konto.Kontostand)
             {
                 Console.WriteLine("You dont have enough balance to make that transaction");
                 return 0;
             }
-            if (amount > _maxWithdrawAmount)
+            if (betrag > _maxAuszahlungBetrag)
             {
                 Console.WriteLine("You can't withdraw more than 1000");
                 return 0;
             }
-            return amount;
+            return betrag;
         }
 
-        private bool CheckTransactionEligibility(Account account)
+        private bool CheckTransactionEligibility(Konto konto)
         {
-            if (_numberOfTrasactions[account.CardNumber] >= 3)
+            if (_anzahlTransaktionen[konto.KontoNr] >= 3)
             {
-                Console.WriteLine("-------------------------------------------------------");
-                Console.WriteLine("You have reached your daily limit of 3 transactions");
+                Console.WriteLine("-----------------------");
+                Console.WriteLine("heutiges Limit erreicht");
                 return false;
             }
             return true;
         }
 
-        private void CheckBalance(Account account)
+        private void ZeigeKontostand(Konto konto)
         {
-            Console.WriteLine("----Balance Check----");
-            Console.WriteLine("Current Balance: "+account.Balance);
+            Console.WriteLine("----Kontostand----");
+            Console.WriteLine("Aktuell: "+konto.Kontostand);
             Console.WriteLine("----------------------");
-            NormalUserOperation(account);
+            BenutzerAktion(konto);
         }
 
-        private void ViewNormalAccountDetails(Account account)
+        private void ZeigeKontoDetails(Konto konto)
         {
-            Console.WriteLine("----Account Details-----");
-            Console.WriteLine("Full Name: " +account.FullName);
-            Console.WriteLine("Card Number: " + account.CardNumber);
-            Console.WriteLine("Pin Code: " + account.PinCode);
-            Console.WriteLine("Balance: " + account.Balance);
+            Console.WriteLine("----konto Details-----");
+            Console.WriteLine("Name: " +konto.Name);
+            Console.WriteLine("Kontonummer: " + konto.KontoNr);
+            Console.WriteLine("Pin Code: " + konto.PinCode);
+            Console.WriteLine("Kontostand: " + konto.Kontostand);
             Console.WriteLine("----------------------");
-            NormalUserOperation(account);
+            BenutzerAktion(konto);
         }
 
-        private bool PinCheck(Account account)
+        private bool PinCheck(Konto konto)
         {
-            var pinCode = TakeUserInput(_pinInput, _pinInputError);
-            if (pinCode == account.PinCode) return true;
+            var pinCode = BenutzerEingabeLesen(_pinEingabe, _pinEingabeFehler);
+            if (pinCode == konto.PinCode) return true;
             return false;
         }
 
-        private Account GetNormalUser()
+        private Konto GetBenutzer()
         {
-            var cardNumber = TakeUserInput(_cardInput, _cardInputError);
-            foreach (Account normalUser in _accountList)
-                if (cardNumber == normalUser.CardNumber) return normalUser;
+            var cardNumber = BenutzerEingabeLesen(_kartenEingabe, _kartenEingabeFehler);
+            foreach (Konto normalUser in _kontoliste)
+                if (cardNumber == normalUser.KontoNr) return normalUser;
             return null;
         }
 
         private void Admin()
         {
             Console.WriteLine(_adminMenu);
-            var choice = TakeUserInput(_menuChoice, _menuChoiceError);
+            var choice = BenutzerEingabeLesen(_menuAuswahl, _menuAuswahlFehler);
             switch (choice)
             {
-                case (int)AdminOperationChoice.ViewAllAccount:
-                    ViewAllAccountDetails();
+                case (int)AdminAktionAuswahl.ZeigeAlleKonten:
+                    ZeigeAlleKontenDetails();
                     break;
-                case (int)AdminOperationChoice.DeleteAccount:
-                    if (_accountList.Count > 0) DeleteAccount();
-                    Console.WriteLine("No account have to delete");
+                case (int)AdminAktionAuswahl.LoescheKonto:
+                    if (_kontoliste.Count > 0) LoescheKonto();
+                    Console.WriteLine("No konto have to delete");
                     Admin();
                     break;
-                case (int)AdminOperationChoice.DepositAmount:
-                    DepositAmount();
+                case (int)AdminAktionAuswahl.GeldEinzahlen:
+                    Depositbetrag();
                     break;
-                case (int)AdminOperationChoice.Logout:
-                    Logout();
+                case (int)AdminAktionAuswahl.Abmelden:
+                    Abmelden();
                     break;
                 default:
-                    Console.WriteLine(_menuChoiceError);
+                    Console.WriteLine(_menuAuswahlFehler);
                     Admin();
                     break;
             }
         }
 
-        private void DepositAmount()
+        private void Depositbetrag()
         {
             int i = 1;
-            foreach (var account in _accountList)
+            foreach (var konto in _kontoliste)
             {
-                Console.WriteLine(i++ + ". Full Nmae: {0} Card Number: {1} Pin Code: {2} Balance: {3}", account.FullName, account.CardNumber, account.PinCode, account.Balance);
+                Console.WriteLine(i++ + ". Name: {0} Kontonummer: {1} Pin Code: {2} Kontostand: {3}", konto.Name, konto.KontoNr, konto.PinCode, konto.Kontostand);
             }
-            var serial = TakeUserInput(_accountSelectToDeposit, _menuChoiceError) - 1;
-            if (serial < 0) DepositAmount();
-            if (_accountList.Count > serial)
+            var serial = BenutzerEingabeLesen(_kontoAuswahlBetragEinzahlung, _menuAuswahlFehler) - 1;
+            if (serial < 0) Depositbetrag();
+            if (_kontoliste.Count > serial)
             {
-                var amount = TakeUserInput(_depositAmount, _depositAmountError);
-                _accountList[serial].Balance = _accountList[serial].Balance + amount;
-                Console.WriteLine("You have successfully deposit {0}. New account balance is {1}", amount, _accountList[serial].Balance);
+                var betrag = BenutzerEingabeLesen(_betragEinzahlung, _betragEinzahlungFehler);
+                _kontoliste[serial].Kontostand = _kontoliste[serial].Kontostand + betrag;
+                Console.WriteLine("Einzahlung von {0} erfolgreich. Neuer Kontostand beträgt {1}", betrag, _kontoliste[serial].Kontostand);
                 Admin();
             }
             else
             {
-                Console.WriteLine(_menuChoiceError);
+                Console.WriteLine(_menuAuswahlFehler);
                 Admin();
             }
             
         }
 
-        private void DeleteAccount()
+        private void LoescheKonto()
         {
             int i = 1;
-            foreach (var account in _accountList)
+            foreach (var konto in _kontoliste)
             {
-                Console.WriteLine(i++ +". Full Nmae: {0} Card Number: {1} Pin Code: {2} Balance: {3}", account.FullName, account.CardNumber, account.PinCode, account.Balance);
+                Console.WriteLine(i++ +". Full Nmae: {0} Card Number: {1} Pin Code: {2} Balance: {3}", konto.Name, konto.KontoNr, konto.PinCode, konto.Kontostand);
             }
-            var serial = TakeUserInput(_accountSelectToDelete, _menuChoiceError) - 1;
-            if(serial < 0) DeleteAccount();
-            if (_accountList.Count > serial)
+            var serial = BenutzerEingabeLesen(_kontoLoeschenAuswahl, _menuAuswahlFehler) - 1;
+            if(serial < 0) LoescheKonto();
+            if (_kontoliste.Count > serial)
             {
-                _accountList.RemoveAt(serial);
-                Console.WriteLine("Account deleted successfully");
+                _kontoliste.RemoveAt(serial);
+                Console.WriteLine("konto deleted successfully");
                 Admin();
             }
             else
             {
-                Console.WriteLine(_menuChoiceError);
+                Console.WriteLine(_menuAuswahlFehler);
                 Admin();
             }
         }
 
-        private void ViewAllAccountDetails()
+        private void ZeigeAlleKontenDetails()
         {
-            Console.WriteLine("----------------------All Account Details-----------------------");
-            foreach (var account in _accountList)
+            Console.WriteLine("----------------------Alle Konten-----------------------");
+            foreach (var konto in _kontoliste)
             {
-                Console.WriteLine("Full Nmae: {0} Card Number: {1} Pin Code: {2} Balance: {3}", account.FullName, account.CardNumber, account.PinCode, account.Balance);    
+                Console.WriteLine("Name: {0} Kontonummer: {1} Pin Code: {2} Kontostand: {3}", konto.Name, konto.KontoNr, konto.PinCode, konto.Kontostand);    
             }
             Console.WriteLine("------------------------------------------------------------------\n");
             Admin();
         }
 
-        private int TakeUserInput(string prompt, string error)
+        private int BenutzerEingabeLesen(string prompt, string error)
         {
             Console.WriteLine(prompt);
             var input = Console.ReadLine();
@@ -339,7 +339,7 @@ Enter your choice: ";
             catch (Exception)
             {
                 Console.WriteLine(error);
-                return TakeUserInput(prompt, error);
+                return BenutzerEingabeLesen(prompt, error);
             }
         }
     }

@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Eatm
 {
-    class Account
+    class Konto
     {
-        public string FullName { get; set; }
-        public int CardNumber { get; set; }
+        public string Name { get; set; }
+        public int KontoNr { get; set; }
         public int PinCode { get; set; }
-        public double Balance { get; set; }
+        public double Kontostand { get; set; }
     }
 }
